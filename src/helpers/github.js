@@ -1,7 +1,7 @@
 import { $get } from './remote';
 
 export const fetchIssues = async () => {
-    const issues = await $get(`/issues?direction=asc`);
+    const issues = await $get(`/issues`, { direction: 'asc' }, { hideLoading: true });
     return issues;
     // issues.forEach(issue => {
     //     const meta = parseMeta(issue.body);
@@ -14,3 +14,5 @@ export const fetchIssues = async () => {
     //     return true;
     // });
 };
+
+export const fetchLabels = () => $get('/labels', {}, { hideLoading: true });

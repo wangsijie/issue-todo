@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import { fetchIssues } from '../helpers/github';
+import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 
-export default class Home extends Component {
+@observer
+class Home extends Component {
+    static contextTypes = {
+        store: PropTypes.object,
+      };    
     state = {
         issues: null,
     }
-    componentDidMount() {
-        this.fetch();
-    }
-    async fetch() {
-        const issues = await fetchIssues();
-        this.setState({ issues });
-    }
     render() {
-        const { issues } = this.state;
+        const { issues } = this.context.store;
         return <div className="app-home">
             <ul>
                 {
@@ -25,3 +23,5 @@ export default class Home extends Component {
         </div>
     }
 }
+
+export default Home;
