@@ -5,6 +5,7 @@ class Store {
     @observable issues = [];
     @observable labels = [];
     @observable initState = 'pending'; // "pending" / "done" / "error"
+    @observable sidebarCollapsed = false;
 
     @action
     init = async () => {
@@ -15,6 +16,10 @@ class Store {
         this.labels = labels;
 
         this.initState = 'done';
+    }
+
+    @action setSidebarCollapse = (value) => {
+        this.sidebarCollapsed = value;
     }
 
 //   @action addTodo = (todo) => { // 增

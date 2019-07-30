@@ -1,0 +1,10 @@
+.app-sidebar {
+    background: #e8e8e8;
+    border-right: 1px solid #d0d0d0;
+    width: 160px;
+    height: calc(100vh - 40px);
+    transition: width 0.3s;
+    &[data-is-collapsed="true"] {
+        width: 0;
+    }
+}

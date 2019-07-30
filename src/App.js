@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Spin } from 'antd';
 import { observer } from 'mobx-react';
 import { isLogin } from './helpers/remote';
+import Header from './components/header';
+import Sidebar from './components/sidebar';
 import Home from './pages/home';
 import Login from './pages/login';
 import './app.less';
@@ -31,11 +33,14 @@ class App extends React.Component {
 		}
 		return (
 			<div className="app">
-				<header className="app-header">
-				
-				</header>
 				<Router>
-					<Route path="/" exact component={Home} />
+					<Header />
+					<div className="app-body">
+						<Sidebar />
+						<div className="app-main">
+							<Route path="/" exact component={Home} />
+						</div>
+					</div>
 				</Router>
 			</div>
 		);

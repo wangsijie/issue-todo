@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 class Home extends Component {
     static contextTypes = {
         store: PropTypes.object,
-      };    
+    };
     state = {
         issues: null,
     }
