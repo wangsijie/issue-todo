@@ -12,6 +12,15 @@ header {
         border-radius: 4px;
         outline: none;
         margin-right: 10px;
+        &:active {
+            background: #e1e1e1;
+        }
+        &:disabled {
+            color: #b6b6b6;
+            &:active {
+                background: #fff;
+            }
+        }
     }
     .page-title {
         font-size: 14px;
