@@ -4,7 +4,27 @@
     width: 160px;
     height: calc(100vh - 40px);
     transition: width 0.3s;
+    overflow: hidden;
     &[data-is-collapsed="true"] {
         width: 0;
+    }
+    .sidebar-menu-group-title {
+        padding: 5px 10px;
+        color: #444;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: default;
+    }
+    .sidebar-menu {
+        a {
+            width: 160px;
+            color: #444;
+            padding: 5px 20px;
+            font-size: 14px;
+            display: block;
+            &.active {
+                background: #d0d0d0;
+            }
+        }
     }
 }

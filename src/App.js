@@ -6,8 +6,12 @@ import { observer } from 'mobx-react';
 import { isLogin } from './helpers/remote';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
-import Home from './pages/home';
+// import Home from './pages/home';
 import Login from './pages/login';
+import Inbox from './pages/inbox';
+import NextAction from './pages/next-action';
+import List from './pages/list';
+import Important from './pages/important';
 import './app.less';
 
 @observer
@@ -38,7 +42,11 @@ class App extends React.Component {
 					<div className="app-body">
 						<Sidebar />
 						<div className="app-main">
-							<Route path="/" exact component={Home} />
+							<Route path="/" exact component={Inbox} />
+							<Route path="/inbox" component={Inbox} />
+							<Route path="/next-action" component={NextAction} />
+							<Route path="/important" component={Important} />
+							<Route path="/list" component={List} />
 						</div>
 					</div>
 				</Router>
