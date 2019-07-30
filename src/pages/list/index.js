@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
-export default class extends Component {
+import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
+
+@observer
+class ListPage extends Component {
+    static contextTypes = {
+        store: PropTypes.object,
+    };
     render() {
-        return <div>page</div>;
+        const { listIssues } = this.context.store;
+        return <div>{
+            listIssues.map(o => o.title)
+        }</div>;
     }
 }
+
+export default ListPage;

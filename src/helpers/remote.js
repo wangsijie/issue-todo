@@ -7,10 +7,16 @@ export const API_ROOT = 'https://api.github.com/repos/wangsijie/todo';
 let token;
 
 export const getHeaders = () => {
+    const headers = {
+        Accept: 'application/vnd.github.symmetra-preview+json',
+    };
     if (!token) {
         token = localStorage.getItem('gist-token');
     }
-    return token ? { Authorization: `Bearer ${token}` } : null;
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+    return headers;
 };
 
 export const $request = async (

@@ -1,5 +1,7 @@
-import {observable, action} from 'mobx';
+import {observable, action, computed} from 'mobx';
 import { fetchIssues, fetchLabels } from '../helpers/github';
+
+const isListLabel = label => /\[list\]/.test(label.description);
 
 class Store {
     @observable issues = [];
@@ -20,6 +22,27 @@ class Store {
 
     @action setSidebarCollapse = (value) => {
         this.sidebarCollapsed = value;
+    }
+    
+    @computed get nextActionIssues() {
+        return this.issues.filter(issue => {
+            if (!issue.labels.length) {
+                return false;
+            }
+            return !issue.labels.some(isListLabel);
+        });
+    }
+
+    @computed get inboxIssues() {
+        return this.issues.filter(issue => issue.labels.length === 0);
+    }
+
+    @computed get importantIssues() {
+        return this.issues.filter(issue => issue.labels.some(label => label.name === 'important'));
+    }
+
+    @computed get listIssues() {
+        return this.issues.filter(issue => issue.labels.some(isListLabel));
     }
 
 //   @action addTodo = (todo) => { // 增
