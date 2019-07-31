@@ -7,6 +7,13 @@
         border-radius: 50%;
         border: 1px solid #cacaca;
         margin-top: 10px;
+        .closed {
+            width: 14px;
+            height: 14px;
+            background: #1B88FF;
+            margin: 2px;
+            border-radius: 50%;
+        }
     }
     .main {
         flex: 1;
@@ -19,6 +26,9 @@
             margin-right: 5px;
             cursor: default;
             color: #000;
+            &[data-is-closed="true"] {
+                color: #aaa;
+            }
         }
         .labels {
             margin-right: 20px;

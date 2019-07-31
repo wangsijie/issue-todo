@@ -1,5 +1,6 @@
 import {observable, action, computed} from 'mobx';
-import { fetchIssues, fetchLabels } from '../helpers/github';
+import { message } from 'antd';
+import { fetchIssues, fetchLabels, closeIssue } from '../helpers/github';
 
 const isListLabel = label => /\[list\]/.test(label.description);
 
@@ -27,6 +28,23 @@ class Store {
 
     @action setSidebarCollapse = (value) => {
         this.sidebarCollapsed = value;
+    }
+
+    @action closeIssue = (number) => {
+        const issue = this.issues.find(o => o.number === number);
+        if (!issue) {
+            return message.error('Issue not found: #' + number);
+        }
+        closeIssue(number);
+        this.issues = this.issues.map(issue => {
+            if (issue.number !== number) {
+                return issue;
+            }
+            return {
+                ...issue,
+                $closed: true,
+            };
+        });
     }
     
     @computed get nextActionIssues() {
