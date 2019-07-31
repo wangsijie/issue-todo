@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { Icon } from 'antd';
 import { Switch, Route } from 'react-router-dom';
-import { menus } from '../constants/menus';
-import './header.less';
+import { menus } from '../../constants/menus';
+import Add from './add';
+import './index.less';
 
 @observer
 class Header extends Component {
@@ -22,7 +23,7 @@ class Header extends Component {
         return <header className="app-header">
 			<button onClick={this.toggleSidebar}><Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} /></button>
 			<button><Icon type="reload" /></button>
-			<button><Icon type="inbox" /></button>
+			<Add />
             <div className="page-title">
                 <Switch>
                     {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Spin } from 'antd';
 import { observer } from 'mobx-react';
 import { isLogin } from './helpers/remote';
@@ -42,7 +42,7 @@ class App extends React.Component {
 					<div className="app-body">
 						<Sidebar />
 						<div className="app-main">
-							<Route path="/" exact component={Inbox} />
+							<Redirect exact from="/" to="/inbox" />
 							<Route path="/inbox" component={Inbox} />
 							<Route path="/next-action" component={NextAction} />
 							<Route path="/important" component={Important} />

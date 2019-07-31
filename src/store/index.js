@@ -1,6 +1,6 @@
 import {observable, action, computed} from 'mobx';
 import { message } from 'antd';
-import { fetchIssues, fetchLabels, closeIssue } from '../helpers/github';
+import { fetchIssues, fetchLabels, closeIssue, addIssue } from '../helpers/github';
 
 const isListLabel = label => /\[list\]/.test(label.description);
 
@@ -44,6 +44,23 @@ class Store {
                 ...issue,
                 $closed: true,
             };
+        });
+    }
+
+    @action addIssue = async ({ title }) => {
+        const fakeNumber = new Date().getTime();
+        this.issues.push({
+            number: fakeNumber,
+            title,
+            labels: [],
+            $displayLabels: [],
+        });
+        const issue = await addIssue({ title });
+        this.issues = this.issues.map(o => {
+            if (o.number !== fakeNumber) {
+                return o;
+            }
+            return { ...o, ...issue };
         });
     }
     
