@@ -12,7 +12,12 @@ class Store {
     @action
     init = async () => {
         const issues = await fetchIssues();
-        this.issues = issues;
+        this.issues = issues.map(issue => {
+            return {
+                ...issue,
+                $displayLabels: issue.labels.filter(o => o.name !== 'important'),
+            };
+        });
 
         const labels = await fetchLabels();
         this.labels = labels;
