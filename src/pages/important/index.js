@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
+import IssueList from '../../components/issue-list';
 
 @observer
 class ImportantPage extends Component {
@@ -9,9 +10,7 @@ class ImportantPage extends Component {
     };
     render() {
         const { importantIssues } = this.context.store;
-        return <div>{
-            importantIssues.map(o => o.title)
-        }</div>;
+        return <div><IssueList issues={importantIssues} /></div>;
     }
 }
 
