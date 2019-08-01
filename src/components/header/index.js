@@ -21,9 +21,11 @@ class Header extends Component {
     render() {
         const { sidebarCollapsed } = this.context.store;
         return <header className="app-header">
-			<button onClick={this.toggleSidebar}><Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} /></button>
-			<button><Icon type="reload" /></button>
-			<Add />
+			<div className="left-buttons">
+                <button onClick={this.toggleSidebar}><Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} /></button>
+                <button><Icon type="reload" /></button>
+                <Add />
+            </div>
             <div className="page-title">
                 <Switch>
                     {
@@ -31,6 +33,7 @@ class Header extends Component {
                     }
                 </Switch>
             </div>
+            <div className="right-buttons"></div>
         </header>;
     }
 }

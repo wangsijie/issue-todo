@@ -4,6 +4,7 @@ header {
     border-bottom: 1px solid #a9a9a9;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     padding: 0 20px;
     button {
         background: #fff;
@@ -22,9 +23,16 @@ header {
             }
         }
     }
+    .left-buttons,
+    .right-buttons {
+        display: flex;
+        flex: 1;
+    }
     .page-title {
         font-size: 14px;
         font-weight: bold;
+        flex: 1;
+        text-align: center;
         cursor: default;
         i {
             color: #1B88FF;
