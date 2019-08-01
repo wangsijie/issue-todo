@@ -1,6 +1,6 @@
 import {observable, action, computed} from 'mobx';
 import { message } from 'antd';
-import { fetchIssues, fetchLabels, closeIssue, addIssue } from '../helpers/github';
+import { fetchIssues, fetchLabels, closeIssue, addIssue, addLabel, deleteLabel } from '../helpers/github';
 
 const isListLabel = label => /\[list\]/.test(label.description);
 
@@ -13,12 +13,7 @@ class Store {
     @action
     init = async () => {
         const issues = await fetchIssues();
-        this.issues = issues.map(issue => {
-            return {
-                ...issue,
-                $displayLabels: issue.labels.filter(o => o.name !== 'important'),
-            };
-        });
+        this.issues = issues;
 
         const labels = await fetchLabels();
         this.labels = labels;
@@ -63,9 +58,47 @@ class Store {
             return { ...o, ...issue };
         });
     }
+
+    @action setIssueFlag = async (number, important = true) => {
+        const label = this.labels.find(o => o.name === 'important');
+        this.issues = this.computedIssues.map(issue => {
+            if (issue.number !== number) {
+                return issue;
+            }
+            if (important) {
+                if (issue.$isImportant) {
+                    return issue;
+                }
+                addLabel(label.name, issue.number);
+                return {
+                    ...issue,
+                    labels: [...issue.labels, label],
+                };
+            } else {
+                if (!issue.$isImportant) {
+                    return issue;
+                }
+                deleteLabel(label.name, issue.number);
+                return {
+                    ...issue,
+                    labels: issue.labels.filter(o => o.name !== 'important'),
+                };
+            }
+        });
+    }
+
+    @computed get computedIssues() {
+        return this.issues.map(issue => {
+            return {
+                ...issue,
+                $displayLabels: issue.labels.filter(o => o.name !== 'important'),
+                $isImportant: issue.labels.some(o => o.name === 'important'),
+            };
+        });
+    }
     
     @computed get nextActionIssues() {
-        return this.issues.filter(issue => {
+        return this.computedIssues.filter(issue => {
             if (!issue.labels.length) {
                 return false;
             }
@@ -74,15 +107,15 @@ class Store {
     }
 
     @computed get inboxIssues() {
-        return this.issues.filter(issue => issue.labels.length === 0);
+        return this.computedIssues.filter(issue => issue.labels.length === 0);
     }
 
     @computed get importantIssues() {
-        return this.issues.filter(issue => issue.labels.some(label => label.name === 'important'));
+        return this.computedIssues.filter(issue => issue.$isImportant);
     }
 
     @computed get listIssues() {
-        return this.issues.filter(issue => issue.labels.some(isListLabel));
+        return this.computedIssues.filter(issue => issue.labels.some(isListLabel));
     }
 
 //   @action addTodo = (todo) => { // 增

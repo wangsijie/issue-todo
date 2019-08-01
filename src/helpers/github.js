@@ -1,4 +1,4 @@
-import { $get, $patch, $post } from './remote';
+import { $get, $patch, $post, $delete } from './remote';
 
 export const fetchIssues = async () => {
     const issues = await $get(`/issues`, { direction: 'asc' }, { hideLoading: true });
@@ -20,3 +20,10 @@ export const fetchLabels = () => $get('/labels', {}, { hideLoading: true });
 export const closeIssue = async (id) => $patch(`/issues/${id}`, { state: 'close' });
 
 export const addIssue = ({ title }) => $post('/issues', { title });
+
+export const addLabel = (names, issueNumber) => $post(
+    `/issues/${issueNumber}/labels`,
+    { labels: Array.isArray(names) ? names : [names] }
+);
+
+export const deleteLabel = (name, issueNumber) => $delete(`/issues/${issueNumber}/labels/${name}`);

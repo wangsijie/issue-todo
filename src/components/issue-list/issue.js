@@ -18,11 +18,16 @@ class Issue extends Component {
         const { closeIssue } = this.context.store;
         closeIssue(issue.number);
     }
+    toggleFlag = () => {
+        const { issue } = this.props;
+        const { setIssueFlag } = this.context.store;
+        setIssueFlag(issue.number, !issue.$isImportant);
+    }
     render() {
         const { issue } = this.props;
         return (
             <div className="ui-issue">
-                <div className="check-box" onClick={this.handleCheckBoxClick}>
+                <div className="check-box" onClick={this.handleCheckBoxClick} data-is-important={issue.$isImportant}>
                     {issue.$closed && <div className="closed" />}
                 </div>
                 <div className="main">
@@ -41,7 +46,7 @@ class Issue extends Component {
                             </div>)
                         }
                     </div>
-                    <div className="flag"><Icon type="flag" /></div>
+                    <div className="flag" onClick={this.toggleFlag}><Icon type="flag" /></div>
                 </div>
             </div>
         );
