@@ -107,7 +107,7 @@ class Store {
     }
 
     @computed get inboxIssues() {
-        return this.computedIssues.filter(issue => issue.labels.length === 0);
+        return this.computedIssues.filter(issue => issue.$displayLabels.length === 0);
     }
 
     @computed get importantIssues() {
