@@ -46,7 +46,9 @@ class Issue extends Component {
                             </div>)
                         }
                     </div>
-                    <div className="flag" onClick={this.toggleFlag}><Icon type="flag" /></div>
+                    <div className="flag" onClick={this.toggleFlag}>
+                        <Icon type="flag" theme={issue.$isImportant ? 'twoTone' : null} />
+                    </div>
                 </div>
             </div>
         );
