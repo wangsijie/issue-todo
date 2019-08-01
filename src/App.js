@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import { Spin } from 'antd';
 import { observer } from 'mobx-react';
 import { isLogin } from './helpers/remote';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
-// import Home from './pages/home';
 import Login from './pages/login';
 import Inbox from './pages/inbox';
 import NextAction from './pages/next-action';
@@ -42,8 +41,7 @@ class App extends React.Component {
 					<div className="app-body">
 						<Sidebar />
 						<div className="app-main">
-							<Redirect exact from="/" to="/inbox" />
-							<Route path="/inbox" component={Inbox} />
+							<Route path="/" exact component={Inbox} />
 							<Route path="/next-action" component={NextAction} />
 							<Route path="/important" component={Important} />
 							<Route path="/list" component={List} />

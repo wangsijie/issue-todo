@@ -29,7 +29,7 @@ class Header extends Component {
             <div className="page-title">
                 <Switch>
                     {
-                        menus.map(menu => <Route key={menu.path} path={menu.path}>{menu.node}</Route>)
+                        menus.map(menu => <Route key={menu.path} path={menu.path} exact={menu.exact}>{menu.node}</Route>)
                     }
                 </Switch>
             </div>

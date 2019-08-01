@@ -17,7 +17,7 @@ class Sidebar extends Component {
             <div className="sidebar-menu-group-title">Perspective</div>
             {
                 menus.map(menu => <div className="sidebar-menu" key={menu.path}>
-                    <NavLink to={menu.path}>{menu.node}</NavLink>
+                    <NavLink to={menu.path} exact={menu.exact}>{menu.node}</NavLink>
                 </div>)
             }
         </div>;
