@@ -2,7 +2,11 @@ import axios from 'axios';
 import { message } from 'antd';
 import { pushRequest, popRequest } from './loading';
 
-export const API_ROOT = 'https://api.github.com/repos/wangsijie/todo';
+export const REPO_URL = '/wangsijie/todo';
+export const API_ROOT = `https://api.github.com/repos${REPO_URL}`;
+export const REPO_ROOT = `https://github.com${REPO_URL}/issues`;
+
+export const goToIssue = number => window.open(`${REPO_ROOT}/${number}`);
 
 let token;
 

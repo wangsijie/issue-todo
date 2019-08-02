@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { Icon } from 'antd';
 import { Switch, Route } from 'react-router-dom';
 import { menus } from '../../constants/menus';
+import { goToIssue } from '../../helpers/remote';
 import Add from './add';
 import './index.less';
 
@@ -18,8 +19,15 @@ class Header extends Component {
         setSidebarCollapse(!sidebarCollapsed);
     }
 
+    goToGithub = () => {
+        const { selectedIssueNumber } = this.context.store;
+        if (selectedIssueNumber) {
+            goToIssue(selectedIssueNumber);
+        }
+    }
+
     render() {
-        const { sidebarCollapsed } = this.context.store;
+        const { sidebarCollapsed, selectedIssueNumber } = this.context.store;
         return <header className="app-header">
 			<div className="left-buttons">
                 <button onClick={this.toggleSidebar}><Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} /></button>
@@ -33,7 +41,9 @@ class Header extends Component {
                     }
                 </Switch>
             </div>
-            <div className="right-buttons"></div>
+            <div className="right-buttons">
+                <button disabled={!selectedIssueNumber} onClick={this.goToGithub}><Icon type="github" /></button>
+            </div>
         </header>;
     }
 }
