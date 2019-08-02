@@ -24,10 +24,10 @@ class Store {
     
     @computed get nextActionIssues() {
         return this.computedIssues.filter(issue => {
-            if (!issue.labels.length) {
+            if (!issue.$displayLabels.length) {
                 return false;
             }
-            return !issue.labels.some(isListLabel);
+            return !issue.$displayLabels.some(isListLabel);
         });
     }
 
