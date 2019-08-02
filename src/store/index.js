@@ -9,6 +9,39 @@ class Store {
     @observable labels = [];
     @observable initState = 'pending'; // "pending" / "done" / "error"
     @observable sidebarCollapsed = false;
+    @observable selectedIssueNumber = 0;
+
+    @computed get computedIssues() {
+        return this.issues.map(issue => {
+            return {
+                ...issue,
+                $displayLabels: issue.labels.filter(o => o.name !== 'important'),
+                $isImportant: issue.labels.some(o => o.name === 'important'),
+                $selected: issue.number === this.selectedIssueNumber,
+            };
+        });
+    }
+    
+    @computed get nextActionIssues() {
+        return this.computedIssues.filter(issue => {
+            if (!issue.labels.length) {
+                return false;
+            }
+            return !issue.labels.some(isListLabel);
+        });
+    }
+
+    @computed get inboxIssues() {
+        return this.computedIssues.filter(issue => issue.$displayLabels.length === 0);
+    }
+
+    @computed get importantIssues() {
+        return this.computedIssues.filter(issue => issue.$isImportant);
+    }
+
+    @computed get listIssues() {
+        return this.computedIssues.filter(issue => issue.labels.some(isListLabel));
+    }
 
     @action
     init = async () => {
@@ -87,63 +120,7 @@ class Store {
         });
     }
 
-    @computed get computedIssues() {
-        return this.issues.map(issue => {
-            return {
-                ...issue,
-                $displayLabels: issue.labels.filter(o => o.name !== 'important'),
-                $isImportant: issue.labels.some(o => o.name === 'important'),
-            };
-        });
-    }
-    
-    @computed get nextActionIssues() {
-        return this.computedIssues.filter(issue => {
-            if (!issue.labels.length) {
-                return false;
-            }
-            return !issue.labels.some(isListLabel);
-        });
-    }
-
-    @computed get inboxIssues() {
-        return this.computedIssues.filter(issue => issue.$displayLabels.length === 0);
-    }
-
-    @computed get importantIssues() {
-        return this.computedIssues.filter(issue => issue.$isImportant);
-    }
-
-    @computed get listIssues() {
-        return this.computedIssues.filter(issue => issue.labels.some(isListLabel));
-    }
-
-//   @action addTodo = (todo) => { // 增
-//     this.todos = [...this.todos, todo]
-//   }
-
-//   @action deleteTodo = (id) => { // 删
-//     this.todos = this.todos.filter(item => {
-//       return item.id !== id
-//     })
-//   }
-
-//   @action completeTodo = (id) => { // 改
-//     this.todos = this.todos.map(item => {
-//       let obj = item.id === id ? {...item, isComplete: !item.isComplete} : item
-//       return obj
-//     })
-//   }
-
-//   @action searchTodo = (content) => { // 查
-//     if (content === '') {
-//       this.todos = list
-//     } else {
-//       this.todos = this.todos.filter(item => {
-//         return item.content.indexOf(content) !== -1
-//       })
-//     }
-//   }
+    @action setSelectedIssueNumber = number => this.selectedIssueNumber = number;
 }
 
 export default new Store();

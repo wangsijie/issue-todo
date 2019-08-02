@@ -23,10 +23,15 @@ class Issue extends Component {
         const { setIssueFlag } = this.context.store;
         setIssueFlag(issue.number, !issue.$isImportant);
     }
+    select = () => {
+        const { issue } = this.props;
+        const { setSelectedIssueNumber } = this.context.store;
+        setSelectedIssueNumber(issue.number);
+    }
     render() {
         const { issue } = this.props;
         return (
-            <div className="ui-issue">
+            <div className="ui-issue" onClick={this.select} data-is-selected={issue.$selected}>
                 <div className="check-box" onClick={this.handleCheckBoxClick} data-is-important={issue.$isImportant}>
                     {issue.$closed && <div className="closed" />}
                 </div>

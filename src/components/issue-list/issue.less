@@ -1,5 +1,15 @@
 .ui-issue {
     display: flex;
+    padding: 0 10px;
+    &[data-is-selected="true"] {
+        background: #f2f2f2;
+        border-top: 1px solid #e9e9e9;
+        margin-top: -1px;
+        &:first-child {
+            border-top: none;
+            margin-top: 0;
+        }
+    }
     .check-box {
         width: 20px;
         height: 20px;

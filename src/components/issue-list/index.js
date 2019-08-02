@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 import Issue from './issue';
 import './index.less';
 
-export default class IssueList extends Component {
+@observer
+class IssueList extends Component {
+    static contextTypes = {
+        store: PropTypes.object,
+    };
+    componentWillUnmount() {
+        const { setSelectedIssueNumber } = this.context.store;
+        setSelectedIssueNumber(0);
+    }
     render() {
         const { issues } = this.props;
         return <div className="ui-issue-list">
@@ -12,3 +22,5 @@ export default class IssueList extends Component {
         </div>
     }
 }
+
+export default IssueList;
