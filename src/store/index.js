@@ -9,6 +9,7 @@ class Store {
     @observable labels = [];
     @observable initState = 'pending'; // "pending" / "done" / "error"
     @observable sidebarCollapsed = false;
+    @observable rightBarCollapsed = false;
     @observable selectedIssueNumber = 0;
 
     @computed get computedIssues() {
@@ -43,6 +44,10 @@ class Store {
         return this.computedIssues.filter(issue => issue.labels.some(isListLabel));
     }
 
+    @computed get selectedIssue() {
+        return this.computedIssues.find(issue => issue.number === this.selectedIssueNumber);
+    }
+
     @action
     init = async () => {
         const issues = await fetchIssues();
@@ -56,6 +61,10 @@ class Store {
 
     @action setSidebarCollapse = (value) => {
         this.sidebarCollapsed = value;
+    }
+
+    @action setRightBarCollapse = (value) => {
+        this.rightBarCollapsed = value;
     }
 
     @action closeIssue = (number) => {

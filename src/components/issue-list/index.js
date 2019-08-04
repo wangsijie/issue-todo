@@ -10,15 +10,21 @@ class IssueList extends Component {
         store: PropTypes.object,
     };
     componentWillUnmount() {
+        this.clearSelection();
+    }
+    clearSelection = () => {
         const { setSelectedIssueNumber } = this.context.store;
         setSelectedIssueNumber(0);
     }
     render() {
         const { issues } = this.props;
         return <div className="ui-issue-list">
-            {
-                issues.map(issue => <Issue key={issue.number} issue={issue}></Issue>)
-            }
+            <div className="ui-issue-list-body">
+                {
+                    issues.map(issue => <Issue key={issue.number} issue={issue}></Issue>)
+                }
+            </div>
+            <div className="ui-issue-list-blank" onClick={this.clearSelection}></div>
         </div>
     }
 }

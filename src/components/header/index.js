@@ -19,6 +19,11 @@ class Header extends Component {
         setSidebarCollapse(!sidebarCollapsed);
     }
 
+    toggleRightBar = () => {
+        const { rightBarCollapsed, setRightBarCollapse } = this.context.store;
+        setRightBarCollapse(!rightBarCollapsed);
+    }
+
     goToGithub = () => {
         const { selectedIssueNumber } = this.context.store;
         if (selectedIssueNumber) {
@@ -43,6 +48,7 @@ class Header extends Component {
             </div>
             <div className="right-buttons">
                 <button disabled={!selectedIssueNumber} onClick={this.goToGithub}><Icon type="github" /></button>
+                <button onClick={this.toggleRightBar}><Icon type="info-circle" /></button>
             </div>
         </header>;
     }

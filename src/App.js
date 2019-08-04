@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import { isLogin } from './helpers/remote';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
+import RightBar from './components/right-bar';
 import Login from './pages/login';
 import Inbox from './pages/inbox';
 import NextAction from './pages/next-action';
@@ -46,6 +47,7 @@ class App extends React.Component {
 							<Route path="/important" component={Important} />
 							<Route path="/list" component={List} />
 						</div>
+						<RightBar />
 					</div>
 				</Router>
 			</div>
