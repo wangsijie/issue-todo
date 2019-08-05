@@ -1,6 +1,9 @@
 import {observable, action, computed} from 'mobx';
 import { message } from 'antd';
-import { fetchIssues, fetchLabels, closeIssue, addIssue, addLabel, deleteLabel } from '../helpers/github';
+import {
+    fetchIssues, fetchLabels, closeIssue, addIssue, addLabel, deleteLabel,
+    updateIssueLabels,
+} from '../helpers/github';
 
 const isListLabel = label => /\[list\]/.test(label.description);
 
@@ -11,6 +14,10 @@ class Store {
     @observable sidebarCollapsed = false;
     @observable rightBarCollapsed = false;
     @observable selectedIssueNumber = 0;
+
+    @computed get displayLabels() {
+        return this.labels.filter(o => o.name !== 'important');
+    }
 
     @computed get computedIssues() {
         return this.issues.map(issue => {
@@ -130,6 +137,18 @@ class Store {
     }
 
     @action setSelectedIssueNumber = number => this.selectedIssueNumber = number;
+
+    @action updateIssue = (number, data) => {
+        this.issues = this.issues.map(issue => {
+            if (issue.number === number) {
+                if (data.labels) {
+                    updateIssueLabels(number, data.labels);
+                }
+                return { ...issue, ...data };
+            }
+            return issue;
+        });
+    }
 }
 
 export default new Store();
