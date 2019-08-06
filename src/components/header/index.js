@@ -31,12 +31,19 @@ class Header extends Component {
         }
     }
 
+    reload = () => {
+        const { loading, init } = this.context.store;
+        if (!loading) {
+            init();
+        }
+    }
+
     render() {
-        const { sidebarCollapsed, selectedIssueNumber } = this.context.store;
+        const { sidebarCollapsed, selectedIssueNumber, loading } = this.context.store;
         return <header className="app-header">
 			<div className="left-buttons">
                 <button onClick={this.toggleSidebar}><Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} /></button>
-                <button><Icon type="reload" /></button>
+                <button onClick={this.reload}><Icon type="reload" data-is-loading={loading > 0} /></button>
                 <Add />
             </div>
             <div className="page-title">

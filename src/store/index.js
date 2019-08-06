@@ -14,6 +14,7 @@ class Store {
     @observable sidebarCollapsed = false;
     @observable rightBarCollapsed = false;
     @observable selectedIssueNumber = 0;
+    @observable loading = false;
 
     @computed get displayLabels() {
         return this.labels.filter(o => o.name !== 'important');
@@ -65,6 +66,9 @@ class Store {
 
         this.initState = 'done';
     }
+
+    @action pushLoading = () => this.loading++;
+    @action popLoading = () => this.loading--;
 
     @action setSidebarCollapse = (value) => {
         this.sidebarCollapsed = value;

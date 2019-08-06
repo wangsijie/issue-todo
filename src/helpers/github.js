@@ -1,7 +1,7 @@
 import { $get, $patch, $post, $delete, $put } from './remote';
 
 export const fetchIssues = async () => {
-    const issues = await $get(`/issues`, { direction: 'asc' }, { hideLoading: true });
+    const issues = await $get(`/issues`, { direction: 'asc', _: new Date().getTime() });
     return issues;
     // issues.forEach(issue => {
     //     const meta = parseMeta(issue.body);
@@ -15,7 +15,7 @@ export const fetchIssues = async () => {
     // });
 };
 
-export const fetchLabels = () => $get('/labels', {}, { hideLoading: true });
+export const fetchLabels = () => $get(`/labels`, { _: new Date().getTime() });
 
 export const closeIssue = async (id) => $patch(`/issues/${id}`, { state: 'close' });
 
