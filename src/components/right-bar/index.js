@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import { Empty, Tag } from 'antd';
+import { Empty, Tag, Input } from 'antd';
+import moment from 'moment';
 import { decideFontColor } from '../../helpers/util';
 import './index.less';
 
 const { CheckableTag } = Tag;
+const { TextArea } = Input;
 
 @observer
 class RightBar extends Component {
@@ -24,13 +26,25 @@ class RightBar extends Component {
         updateIssue(selectedIssue.number, { labels });
     }
 
+    handleTitleChange = () => {
+        const title = this.titleRef.textAreaRef.value;
+        const { updateIssue, selectedIssue } = this.context.store;
+        updateIssue(selectedIssue.number, { title });
+    }
+
     render() {
         const { rightBarCollapsed, selectedIssue, displayLabels } = this.context.store;
-        const { labels: selectedLabels } = selectedIssue || {};
+        const { labels: selectedLabels, title, created_at: createdAt, updated_at: updatedAt } = selectedIssue || {};
         return <div className="app-rightbar" data-is-collapsed={rightBarCollapsed}>
             {
                 selectedIssue
                 ? <div>
+                    <div className="app-rightbar-form-item">
+                        <label>Title</label>
+                        <div className="app-rightbar-form-item-body">
+                            <TextArea defaultValue={title} rows={4} onChange={this.handleTitleChange} ref={ref => this.titleRef = ref} />
+                        </div>
+                    </div>
                     <div className="app-rightbar-form-item">
                         <label>Label</label>
                         <div className="app-rightbar-form-item-body">
@@ -47,6 +61,15 @@ class RightBar extends Component {
                                     {label.name}
                                 </CheckableTag>)
                             }
+                        </div>
+                    </div>
+                    <div className="app-rightbar-form-item">
+                        <label>Date</label>
+                        <div className="app-rightbar-form-item-body">
+                            Created At: {moment(createdAt).format('YYYY/MM/DD HH:mm')}
+                        </div>
+                        <div className="app-rightbar-form-item-body">
+                            Updated At: {moment(updatedAt).format('YYYY/MM/DD HH:mm')}
                         </div>
                     </div>
                 </div>

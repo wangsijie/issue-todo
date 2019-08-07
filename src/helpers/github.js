@@ -34,3 +34,8 @@ export const updateIssueLabels = (number, labels) => $put(
         labels: labels.map(label => label.name),
     }
 );
+
+export const updateIssue = (number, data) => $patch(
+    `/issues/${number}`,
+    data,
+);

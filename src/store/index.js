@@ -1,10 +1,12 @@
 import {observable, action, computed} from 'mobx';
 import { message } from 'antd';
+import _ from 'lodash';
 import {
     fetchIssues, fetchLabels, closeIssue, addIssue, addLabel, deleteLabel,
-    updateIssueLabels,
+    updateIssueLabels, updateIssue as _updateIssue,
 } from '../helpers/github';
 
+const updateIssue = _.debounce(_updateIssue, 1000);
 const isListLabel = label => /\[list\]/.test(label.description);
 
 class Store {
@@ -147,6 +149,8 @@ class Store {
             if (issue.number === number) {
                 if (data.labels) {
                     updateIssueLabels(number, data.labels);
+                } else {
+                    updateIssue(number, data);
                 }
                 return { ...issue, ...data };
             }
