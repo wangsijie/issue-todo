@@ -21,7 +21,9 @@ class App extends React.Component {
     };
 	componentDidMount() {
 		const { init } = this.context.store;
-		init();
+		if (isLogin()) {
+			init();
+		}
 	}
 	render() {
 		if (!isLogin()) {
@@ -31,7 +33,7 @@ class App extends React.Component {
 		if (initState === 'pending') {
 			return (
 				<div className="app pending">
-					<Spin size="large" /> 正在初始化...
+					<Spin size="large" /> Initializing...
 				</div>
 			);
 		}

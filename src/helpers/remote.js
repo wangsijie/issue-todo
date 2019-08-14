@@ -2,9 +2,9 @@ import axios from 'axios';
 import { message } from 'antd';
 import { pushRequest, popRequest } from './loading';
 
-export const REPO_URL = '/wangsijie/todo';
-export const API_ROOT = `https://api.github.com/repos${REPO_URL}`;
-export const REPO_ROOT = `https://github.com${REPO_URL}/issues`;
+export const REPO_URL = localStorage.getItem('issue-todo-repo');
+export const API_ROOT = REPO_URL && `https://api.github.com/repos${REPO_URL}`;
+export const REPO_ROOT = REPO_URL && `https://github.com${REPO_URL}/issues`;
 
 export const goToIssue = number => window.open(`${REPO_ROOT}/${number}`);
 
@@ -15,7 +15,7 @@ export const getHeaders = () => {
         Accept: 'application/vnd.github.symmetra-preview+json',
     };
     if (!token) {
-        token = localStorage.getItem('gist-token');
+        token = localStorage.getItem('issue-todo-token');
     }
     if (token) {
         headers.Authorization = `Bearer ${token}`;
@@ -115,7 +115,7 @@ export const $upload = (endpoint, payload, options) => {
 }
 export const isLogin = () => {
     if (!token) {
-        token = localStorage.getItem('gist-token');
+        token = localStorage.getItem('issue-todo-token');
     }
     return !!token;
 };

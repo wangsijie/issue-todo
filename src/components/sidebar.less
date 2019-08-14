@@ -6,6 +6,7 @@
     transition: width 0.3s;
     overflow: hidden;
     flex-shrink: 0;
+    position: relative;
     &[data-is-collapsed="true"] {
         width: 0;
     }
@@ -26,6 +27,29 @@
             &.active {
                 background: #d0d0d0;
             }
+        }
+    }
+    .login-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-size: 12px;
+        padding: 10px;
+        p {
+            margin-bottom: 5px;
+        }
+        .logout {
+            i {
+                float: right;
+                font-size: 14px;
+                cursor: pointer;
+            }
+        }
+        .repo-url {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     }
 }

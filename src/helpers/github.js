@@ -1,8 +1,18 @@
 import { $get, $patch, $post, $delete, $put } from './remote';
 
 export const fetchIssues = async () => {
-    const issues = await $get(`/issues`, { direction: 'asc', _: new Date().getTime() });
-    return issues;
+    try {
+        const issues = await $get(`/issues`, { direction: 'asc', _: new Date().getTime() }, { throwException: true });
+        return issues;
+    } catch (e) {
+        if (e.response && [401, 404].includes(e.response.status)) {
+            localStorage.removeItem('issue-todo-token');
+            localStorage.removeItem('issue-todo-repo');
+            window.location.reload();
+        } else {
+            throw e;
+        }
+    }
     // issues.forEach(issue => {
     //     const meta = parseMeta(issue.body);
     //     issue.meta = meta;

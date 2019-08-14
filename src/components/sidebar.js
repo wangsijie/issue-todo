@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { NavLink } from 'react-router-dom';
+import { Icon } from 'antd';
+import { REPO_URL } from '../helpers/remote';
 import { menus } from '../constants/menus';
 import './sidebar.less';
 
@@ -10,6 +12,12 @@ class Sidebar extends Component {
     static contextTypes = {
         store: PropTypes.object,
     };
+
+    logout() {
+        localStorage.removeItem('issue-todo-token');
+        localStorage.removeItem('issue-todo-repo');
+        window.location.href = '/';
+    }
 
     render() {
         const { sidebarCollapsed } = this.context.store;
@@ -20,6 +28,10 @@ class Sidebar extends Component {
                     <NavLink to={menu.path} exact={menu.exact}>{menu.node}</NavLink>
                 </div>)
             }
+            <div className="login-info">
+                <p className="logout" onClick={this.logout}>repo:<Icon type="logout" /></p>
+                <p className="repo-url">{REPO_URL}</p>
+            </div>
         </div>;
     }
 }
