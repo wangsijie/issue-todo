@@ -31,7 +31,8 @@ export const $request = async (
         hideLoading = false,
         loadingText = null,
         throwException = false,
-        method = 'GET'
+        method = 'GET',
+        headerLink = false,
     } = {}
 ) => {
     try {
@@ -72,6 +73,10 @@ export const $request = async (
                 popRequest();
             }
             throw e;
+        }
+
+        if (headerLink) {
+            return [response.data, response.headers.link];
         }
 
         return response.data;

@@ -2,8 +2,23 @@ import { $get, $patch, $post, $delete, $put } from './remote';
 
 export const fetchIssues = async () => {
     try {
-        const issues = await $get(`/issues`, { direction: 'asc', _: new Date().getTime() }, { throwException: true });
-        return issues;
+        let result = [];
+        let page = 1;
+        while (true) {
+            const [issues, link] = await $get(
+                `/issues`,
+                { direction: 'asc', _: new Date().getTime(), page },
+                { throwException: true, headerLink: true }
+            );
+            result = [...result, ...issues];
+            const pageFinder = /&page=(\d)>;\srel="next"/.exec(link);
+            if (pageFinder) {
+                page = pageFinder[1];
+            } else {
+                break;
+            }
+        }
+        return result;
     } catch (e) {
         if (e.response && [401, 404].includes(e.response.status)) {
             localStorage.removeItem('issue-todo-token');
