@@ -15,6 +15,11 @@ class RightBar extends Component {
         store: PropTypes.object,
     };
 
+    componentDidUpdate() {
+        const { selectedIssue } = this.context.store;
+        this.titleRef.textAreaRef.value = selectedIssue.title;
+    }
+
     handleLabelChange = (label, checked) => {
         const { updateIssue, selectedIssue } = this.context.store;
         let { labels } = selectedIssue;
