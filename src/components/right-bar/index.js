@@ -17,7 +17,9 @@ class RightBar extends Component {
 
     componentDidUpdate() {
         const { selectedIssue } = this.context.store;
-        this.titleRef.textAreaRef.value = selectedIssue.title;
+        if (this.titleRef) {
+            this.titleRef.textAreaRef.value = selectedIssue.title;
+        }
     }
 
     handleLabelChange = (label, checked) => {

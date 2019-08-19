@@ -13,7 +13,6 @@ class HeaderAdd extends Component {
         modalVisible: false,
     }
     handleInputChange = value => {
-        console.log(value);
         this.setState({ title: value });
     }
     submit = () => {
@@ -37,6 +36,7 @@ class HeaderAdd extends Component {
                         placeholder="Unnamed Task"
                         autoFocus
                         ref={input => this.input = input}
+                        onPressEnter={this.submit}
                     />
                 </Modal>
             </>
