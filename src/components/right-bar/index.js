@@ -15,10 +15,14 @@ class RightBar extends Component {
         store: PropTypes.object,
     };
 
+    state = {
+        title: null,
+    }
+
     componentDidUpdate() {
         const { selectedIssue } = this.context.store;
-        if (this.titleRef) {
-            this.titleRef.textAreaRef.value = selectedIssue.title;
+        if (selectedIssue && selectedIssue.title !== this.state.title) {
+            this.setState({ title: selectedIssue.title });
         }
     }
 
@@ -33,15 +37,16 @@ class RightBar extends Component {
         updateIssue(selectedIssue.number, { labels });
     }
 
-    handleTitleChange = () => {
-        const title = this.titleRef.textAreaRef.value;
+    handleTitleChange = (e) => {
+        e.persist();
         const { updateIssue, selectedIssue } = this.context.store;
-        updateIssue(selectedIssue.number, { title });
+        updateIssue(selectedIssue.number, { title: e.target.value });
     }
 
     render() {
         const { rightBarCollapsed, selectedIssue, displayLabels } = this.context.store;
         const { labels: selectedLabels, title, created_at: createdAt, updated_at: updatedAt } = selectedIssue || {};
+        const { title: titleValue } = this.state;
         return <div className="app-rightbar" data-is-collapsed={rightBarCollapsed}>
             {
                 selectedIssue
@@ -49,7 +54,12 @@ class RightBar extends Component {
                     <div className="app-rightbar-form-item">
                         <label>Title</label>
                         <div className="app-rightbar-form-item-body">
-                            <TextArea defaultValue={title} rows={4} onChange={this.handleTitleChange} ref={ref => this.titleRef = ref} />
+                            <TextArea
+                                defaultValue={title}
+                                rows={4}
+                                onChange={this.handleTitleChange}
+                                value={titleValue}
+                            />
                         </div>
                     </div>
                     <div className="app-rightbar-form-item">
