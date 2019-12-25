@@ -1,4 +1,6 @@
+import moment from 'moment';
 import { $get, $patch, $post, $delete, $put } from './remote';
+import { parseMeta, stringifyMeta } from './util';
 
 export const fetchIssues = async () => {
     try {
@@ -10,7 +12,18 @@ export const fetchIssues = async () => {
                 { direction: 'asc', _: new Date().getTime(), page },
                 { throwException: true, headerLink: true }
             );
-            result = [...result, ...issues];
+            result = [
+                ...result,
+                ...issues.map(issue => ({
+                    ...issue,
+                    meta: parseMeta(issue.body),
+                })).filter(issue => {
+                    if (issue.meta.postpone && issue.meta.postpone.isAfter(moment())) {
+                        return false;
+                    }
+                    return true;
+                }),
+            ];
             const pageFinder = /&page=(\d)>;\srel="next"/.exec(link);
             if (pageFinder) {
                 page = pageFinder[1];
@@ -28,16 +41,6 @@ export const fetchIssues = async () => {
             throw e;
         }
     }
-    // issues.forEach(issue => {
-    //     const meta = parseMeta(issue.body);
-    //     issue.meta = meta;
-    // });
-    // return issues.filter(issue => {
-    //     if (issue.meta.postpone && issue.meta.postpone.isAfter(moment())) {
-    //         return false;
-    //     }
-    //     return true;
-    // });
 };
 
 export const fetchLabels = () => $get(`/labels`, { _: new Date().getTime() });
@@ -64,3 +67,12 @@ export const updateIssue = (number, data) => $patch(
     `/issues/${number}`,
     data,
 );
+
+export const updateIssueMeta = (number, body, { postpone }) => {
+    const meta = parseMeta(body);
+    if (postpone) {
+        meta.postpone = postpone;
+    }
+    const newBody = stringifyMeta(body, meta);
+    return updateIssue(number, { body: newBody });
+};
