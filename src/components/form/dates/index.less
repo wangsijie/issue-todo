@@ -1,0 +1,30 @@
+.ui-form-item-dates {
+    .quick-select-buttons {
+        display: flex;
+        overflow: hidden;
+        button {
+            flex: 1;
+            margin-top: -1px;
+            margin-left: -1px;
+            border: 1px solid #cdcdcd;
+            font-size: 12px;
+            outline: none;
+            background: none;
+            &:first-child {
+                margin-left: 0;
+            }
+            &:active {
+                background: #e1e1e1;
+            }
+        }
+    }
+    .sub-form {
+        margin-top: 10px;
+        .ant-form-item-label {
+            line-height: 20px;
+        }
+        .ant-form-item-control-wrapper {
+            vertical-align: baseline !important;
+        }
+    }
+}

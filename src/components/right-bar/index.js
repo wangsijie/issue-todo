@@ -24,17 +24,21 @@ class RightBar extends Component {
 
     handleValuesChange = (changedValues, allValues) => {
         const { updateIssue, selectedIssue } = this.context.store;
-        updateIssue(selectedIssue.number, changedValues);
+        if (changedValues.date && changedValues.date.defer !== undefined) {
+            updateIssue(selectedIssue.number, { meta: { defer: changedValues.date.defer } });
+        } else {
+            updateIssue(selectedIssue.number, changedValues);
+        }
     }
 
     render() {
         const { rightBarCollapsed, selectedIssue, displayLabels } = this.context.store;
-        const { labels, title, created_at: createdAt, updated_at: updatedAt } = selectedIssue || {};
+        const { labels, title, created_at: createdAt, updated_at: updatedAt, meta } = selectedIssue || {};
         return <div className="app-rightbar" data-is-collapsed={rightBarCollapsed}>
             {
                 selectedIssue
                 ? <Form
-                    formData={{ title, labels, date: { createdAt, updatedAt } }}
+                    formData={{ title, labels, date: { createdAt, updatedAt, defer: meta.defer } }}
                     onValuesChange={this.handleValuesChange}
                     displayLabels={displayLabels}
                 />

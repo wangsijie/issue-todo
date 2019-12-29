@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { $get, $patch, $post, $delete, $put } from './remote';
 import { parseMeta, stringifyMeta } from './util';
 
@@ -17,12 +16,7 @@ export const fetchIssues = async () => {
                 ...issues.map(issue => ({
                     ...issue,
                     meta: parseMeta(issue.body),
-                })).filter(issue => {
-                    if (issue.meta.postpone && issue.meta.postpone.isAfter(moment())) {
-                        return false;
-                    }
-                    return true;
-                }),
+                })),
             ];
             const pageFinder = /&page=(\d)>;\srel="next"/.exec(link);
             if (pageFinder) {
@@ -68,10 +62,10 @@ export const updateIssue = (number, data) => $patch(
     data,
 );
 
-export const updateIssueMeta = (number, body, { postpone }) => {
+export const updateIssueMeta = (number, body, { defer }) => {
     const meta = parseMeta(body);
-    if (postpone) {
-        meta.postpone = postpone;
+    if (defer !== undefined) {
+        meta.defer = defer;
     }
     const newBody = stringifyMeta(body, meta);
     return updateIssue(number, { body: newBody });

@@ -13,10 +13,23 @@
     .ant-empty {
         margin-top: 100px;
     }
-    form {
+    > form {
         padding: 10px 15px;
         .ant-form-item-control {
             line-height: unset;
+        }
+        > .ant-form-item {
+            > .ant-col > label {
+                color: #444;
+                font-weight: bold;
+                cursor: default;
+                &::after {
+                    content: unset;
+                }
+            }
+        }
+        .ant-form-item {
+            margin-bottom: 0;
         }
     }
 }

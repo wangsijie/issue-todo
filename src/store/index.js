@@ -1,9 +1,10 @@
 import {observable, action, computed} from 'mobx';
 import { message } from 'antd';
 import _ from 'lodash';
+import moment from 'moment';
 import {
     fetchIssues, fetchLabels, closeIssue, addIssue, addLabel, deleteLabel,
-    updateIssueLabels, updateIssue as _updateIssue,
+    updateIssueLabels, updateIssue as _updateIssue, updateIssueMeta,
 } from '../helpers/github';
 
 const updateIssue = _.debounce(_updateIssue, 1000);
@@ -29,6 +30,7 @@ class Store {
                 $displayLabels: issue.labels.filter(o => o.name !== 'important'),
                 $isImportant: issue.labels.some(o => o.name === 'important'),
                 $selected: issue.number === this.selectedIssueNumber,
+                $deferred: issue.meta.defer && moment(issue.meta.defer).isAfter(moment()),
             };
         });
     }
@@ -147,6 +149,10 @@ class Store {
     @action updateIssue = (number, data) => {
         this.issues = this.issues.map(issue => {
             if (issue.number === number) {
+                if (data.meta) {
+                    updateIssueMeta(number, issue.body, data.meta);
+                    return { ...issue, meta: { ...issue.meta, ...data.meta } };
+                }
                 if (data.labels) {
                     updateIssueLabels(number, data.labels);
                 } else {

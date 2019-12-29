@@ -21,8 +21,8 @@ export const parseMeta = body => {
     if (match) {
         try {
             const meta = JSON.parse(match[1]);
-            if (meta.postpone) {
-                result.postpone = moment(meta.postpone);
+            if (meta.defer) {
+                result.defer = meta.defer;
             }
         } catch (e) { }
     }
@@ -30,8 +30,8 @@ export const parseMeta = body => {
 }
 export const stringifyMeta = (body, _meta) => {
     const meta = _.clone(_meta);
-    if (meta.postpone) {
-        meta.postpone = moment(meta.postpone).format('YYYY-MM-DD HH:mm:ss');
+    if (meta.defer) {
+        meta.defer = moment(meta.defer).format('YYYY-MM-DD HH:mm:ss');
     }
     const result = `\`\`\`\r\n[meta]\r\n${JSON.stringify(meta, null, 2)}\r\n[/meta]\r\n\`\`\``;
     if (metaRegexp.test(body)) {

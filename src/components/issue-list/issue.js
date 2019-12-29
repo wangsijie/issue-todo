@@ -31,7 +31,7 @@ class Issue extends Component {
     render() {
         const { issue } = this.props;
         return (
-            <div className="ui-issue" onClick={this.select} data-is-selected={issue.$selected}>
+            <div className="ui-issue" onClick={this.select} data-is-selected={issue.$selected} data-is-faded={issue.$deferred}>
                 <div className="check-box" onClick={this.handleCheckBoxClick} data-is-important={issue.$isImportant}>
                     {issue.$closed && <div className="closed" />}
                 </div>
