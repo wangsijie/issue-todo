@@ -1,0 +1,32 @@
+.ui-header-tags-filter {
+    // background: #f1f1f1;
+    // margin: -12px -16px;
+    // padding: 6px 0;
+    // border: 1px solid #cdcdcd;
+    // border-radius: 6px;
+    .popover-item {
+        display: flex;
+        align-items: baseline;
+        padding: 0 10px;
+        .check {
+            font-size: 12px;
+            width: 20px;
+        }
+        .color {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .name {
+            margin-left: 10px;
+            cursor: default;
+        }
+        &:hover {
+            background: #5094f8;
+            color: #fff;
+            .color {
+                border: 1px solid #fff;
+            }
+        }
+    }
+}

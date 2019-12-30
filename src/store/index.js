@@ -24,6 +24,7 @@ class Store {
     }
 
     @computed get computedIssues() {
+        const labels = this.labels.filter(label => label.$visible).map(label => label.name);
         return this.issues.map(issue => {
             return {
                 ...issue,
@@ -32,6 +33,11 @@ class Store {
                 $selected: issue.number === this.selectedIssueNumber,
                 $deferred: issue.meta.defer && moment(issue.meta.defer).isAfter(moment()),
             };
+        }).filter(issue => {
+            if (issue.$isImportant) {
+                return true;
+            }
+            return issue.labels.some(o => labels.includes(o.name));
         });
     }
     
@@ -66,7 +72,7 @@ class Store {
         this.issues = issues;
 
         const labels = await fetchLabels();
-        this.labels = labels;
+        this.labels = labels.map(label => ({ ...label, $visible: true }));
 
         this.initState = 'done';
     }
@@ -161,6 +167,15 @@ class Store {
                 return { ...issue, ...data };
             }
             return issue;
+        });
+    }
+
+    @action updateLabelVisible = (id, visible) => {
+        this.labels = this.labels.map(label => {
+            if (label.id !== id) {
+                return label;
+            }
+            return { ...label, $visible: visible };
         });
     }
 }

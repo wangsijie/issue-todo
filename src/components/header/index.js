@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import { menus } from '../../constants/menus';
 import { goToIssue } from '../../helpers/remote';
 import Add from './add';
+import TagFilter from './tag-filter';
 import './index.less';
 
 @observer
@@ -54,6 +55,7 @@ class Header extends Component {
                 </Switch>
             </div>
             <div className="right-buttons">
+                <TagFilter />
                 <button disabled={!selectedIssueNumber} onClick={this.goToGithub}><Icon type="github" /></button>
                 <button onClick={this.toggleRightBar}><Icon type="info-circle" /></button>
             </div>
