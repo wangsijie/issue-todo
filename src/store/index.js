@@ -37,6 +37,9 @@ class Store {
             if (issue.$isImportant) {
                 return true;
             }
+            if (!issue.labels.length) {
+                return true;
+            }
             return issue.labels.some(o => labels.includes(o.name));
         });
     }
@@ -111,6 +114,7 @@ class Store {
             number: fakeNumber,
             title,
             labels: [],
+            meta: {},
             $displayLabels: [],
         });
         const issue = await addIssue({ title });
